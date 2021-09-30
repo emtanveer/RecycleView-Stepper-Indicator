@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Stepper With RecyclerView</string>
+
+    <!--Steppter Status string -->
+    <string name="stepper_one_desc">POLICY</string>
+    <string name="stepper_two_desc">PROFESSION</string>
+    <string name="stepper_three_desc">CUSTOMIZE</string>
+    <string name="stepper_four_desc">HISTORY</string>
+    <string name="stepper_five_desc">PERSONAL</string>
+</resources>

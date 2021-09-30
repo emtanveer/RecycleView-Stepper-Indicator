@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="stepper_point_size">@dimen/_20sdp</dimen>
+    <dimen name="stepper_line_width">@dimen/_16sdp</dimen>
+    <dimen name="stepper_text_size">@dimen/_9ssp</dimen>
+    <dimen name="stepper_text_desc_size">@dimen/_8ssp</dimen>
+</resources>
