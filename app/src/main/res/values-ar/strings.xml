@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Stepper With RecyclerView</string>
+
+    <!--Steppter Status string -->
+    <string name="stepper_one_desc">سياسات</string>
+    <string name="stepper_two_desc">مهنة</string>
+    <string name="stepper_three_desc">يعدل أو يكيف</string>
+    <string name="stepper_four_desc">التاريخ</string>
+    <string name="stepper_five_desc">شخصي</string>
+    <string name="stepper_six_desc">دمية 6</string>
+    <string name="stepper_seven_desc">دمية 7</string>
+</resources>

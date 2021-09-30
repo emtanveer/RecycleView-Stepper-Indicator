@@ -8,28 +8,55 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".activity.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/step_indicator_recycler_view"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_55sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/step_indicator_recycler_view">
+
+            <EditText
+                android:id="@+id/et_remove_stepper"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:maxLength="3" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRemoveStepper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:backgroundTint="@android:color/holo_green_light"
+                android:text="Remove Stepper" />
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStepOne"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="goto Step 1"
-            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/step_indicator_recycler_view" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStepTwo"
@@ -66,6 +93,46 @@
             android:text="goto Step 5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnStepFour" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStepSix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="goto Step 6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnStepFive" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStepSeven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="goto Step 7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnStepSix" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnArabicLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:text="Arabic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnStepSeven" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEnglishLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:text="English"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnArabicLanguage" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

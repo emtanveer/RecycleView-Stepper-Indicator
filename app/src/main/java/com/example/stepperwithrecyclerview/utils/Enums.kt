@@ -1,4 +1,4 @@
-package com.example.stepperwithrecyclerview
+package com.example.stepperwithrecyclerview.utils
 
 
 /**
@@ -29,5 +29,7 @@ enum class StepperPosition(val position: Int) {
     STEP_THREE(3),
     STEP_FOUR(4),
     STEP_FIVE(5),
+    STEP_SIX(6),
+    STEP_SEVEN(7),
 }
 

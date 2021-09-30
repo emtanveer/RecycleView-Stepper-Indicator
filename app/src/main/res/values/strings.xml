@@ -7,4 +7,6 @@
     <string name="stepper_three_desc">CUSTOMIZE</string>
     <string name="stepper_four_desc">HISTORY</string>
     <string name="stepper_five_desc">PERSONAL</string>
+    <string name="stepper_six_desc">Dummy 6</string>
+    <string name="stepper_seven_desc">Dummy 7</string>
 </resources>

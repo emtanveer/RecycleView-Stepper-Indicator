@@ -1,4 +1,4 @@
-package com.example.stepperwithrecyclerview
+package com.example.stepperwithrecyclerview.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stepperwithrecyclerview.databinding.*
@@ -9,6 +9,8 @@ class ViewHolder : RecyclerView.ViewHolder {
     private var stepperItemThreeBinding: StepperItemThreeBinding? = null
     private var stepperItemFourBinding: StepperItemFourBinding? = null
     private var stepperItemFiveBinding: StepperItemFiveBinding? = null
+    private var stepperItemSixBinding: StepperItemSixBinding? = null
+    private var stepperItemSevenBinding: StepperItemSevenBinding? = null
     private var emptyItemBinding: EmptyItemBinding? = null
 
     constructor(bindingOne: StepperItemOneBinding) : super(bindingOne.root) {
@@ -29,6 +31,14 @@ class ViewHolder : RecyclerView.ViewHolder {
 
     constructor(bindingFive: StepperItemFiveBinding) : super(bindingFive.root) {
         stepperItemFiveBinding = bindingFive
+    }
+
+    constructor(bindingSix: StepperItemSixBinding) : super(bindingSix.root) {
+        stepperItemSixBinding = bindingSix
+    }
+
+    constructor(bindingSeven: StepperItemSevenBinding) : super(bindingSeven.root) {
+        stepperItemSevenBinding = bindingSeven
     }
 
     constructor(bindingEmptyLayout: EmptyItemBinding) : super(bindingEmptyLayout.root) {

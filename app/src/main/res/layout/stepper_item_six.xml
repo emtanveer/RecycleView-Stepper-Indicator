@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainStepperView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <View
+            android:id="@+id/view_start_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_4sdp"
+            android:background="@color/stepper_default_color"
+            app:layout_constraintBottom_toBottomOf="@+id/numberParentContainer"
+            app:layout_constraintEnd_toStartOf="@+id/numberParentContainer"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/numberParentContainer"
+            android:layout_width="@dimen/stepper_point_size"
+            android:layout_height="@dimen/stepper_point_size"
+            android:background="@drawable/stepper_circle_default"
+            app:layout_constraintBottom_toBottomOf="@+id/view_start_line"
+            app:layout_constraintEnd_toStartOf="@+id/view_end_line"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/view_start_line"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_LabelStepNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_1sdp"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/stepper_text_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view_end_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_4sdp"
+            android:background="@color/stepper_default_color"
+            android:minWidth="@dimen/stepper_line_width"
+            app:layout_constraintBottom_toBottomOf="@+id/numberParentContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/numberParentContainer"
+            app:layout_constraintTop_toTopOf="@+id/numberParentContainer" />
+
+        <TextView
+            android:id="@+id/tv_LabelStepDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_3sdp"
+            android:paddingRight="@dimen/_3sdp"
+            android:text="POLICY"
+            android:textAlignment="center"
+            android:textColor="@color/stepper_default_color"
+            android:textSize="@dimen/stepper_text_desc_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/numberParentContainer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

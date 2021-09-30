@@ -1,10 +1,11 @@
-package com.example.stepperwithrecyclerview
+package com.example.stepperwithrecyclerview.utils
 
 import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.ViewDataBinding
+import com.example.stepperwithrecyclerview.R
 import com.example.stepperwithrecyclerview.databinding.*
 
 
@@ -53,6 +54,8 @@ class MyPublicHelperClass(private val context: Context) {
         isStepperThree: Boolean,
         isStepperFour: Boolean,
         isStepperFive: Boolean,
+        isStepperSix: Boolean,
+        isStepperSeven: Boolean,
         tintStartLine: Boolean, tintEndLine: Boolean,
         textColor: Int
     ) {
@@ -155,6 +158,50 @@ class MyPublicHelperClass(private val context: Context) {
 
                 stepperFiveStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
+            isStepperSix->{
+                val stepperSixStatusView : StepperItemSixBinding? = statusView as StepperItemSixBinding?
+                stepperSixStatusView?.numberParentContainer?.setBackgroundResource(
+                    defaultBackgroundResourceID
+                )
+
+                if (tintStartLine) {
+                    if (stepperSixStatusView != null) {
+                        tintView(stepperSixStatusView.viewStartLine, defaultLine)
+                    }
+                }
+
+                if (tintEndLine) {
+                    if (stepperSixStatusView != null) {
+                        tintView(
+                            stepperSixStatusView.viewEndLine, defaultLine
+                        )
+                    }
+                }
+
+                stepperSixStatusView?.tvLabelStepDescription?.setTextColor(textColor)
+            }
+            isStepperSeven->{
+                val stepperSevenStatusView : StepperItemSevenBinding? = statusView as StepperItemSevenBinding?
+                stepperSevenStatusView?.numberParentContainer?.setBackgroundResource(
+                    defaultBackgroundResourceID
+                )
+
+                if (tintStartLine) {
+                    if (stepperSevenStatusView != null) {
+                        tintView(stepperSevenStatusView.viewStartLine, defaultLine)
+                    }
+                }
+
+                if (tintEndLine) {
+                    if (stepperSevenStatusView != null) {
+                        tintView(
+                            stepperSevenStatusView.viewEndLine, defaultLine
+                        )
+                    }
+                }
+
+                stepperSevenStatusView?.tvLabelStepDescription?.setTextColor(textColor)
+            }
             else -> {
 
             }
@@ -168,6 +215,8 @@ class MyPublicHelperClass(private val context: Context) {
         isStepperThree: Boolean,
         isStepperFour: Boolean,
         isStepperFive: Boolean,
+        isStepperSix: Boolean,
+        isStepperSeven: Boolean,
         tintStartLine: Boolean, tintEndLine: Boolean,
         textColor: Int
     ) {
@@ -277,6 +326,48 @@ class MyPublicHelperClass(private val context: Context) {
 
                 stepperFiveStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
+            isStepperSix->{
+                val stepperSixStatusView : StepperItemSixBinding? = statusView as StepperItemSixBinding?
+
+                stepperSixStatusView?.numberParentContainer?.setBackgroundResource(
+                    inProgressBackgroundResourceID
+                )
+
+                if (tintStartLine) {
+                    if (stepperSixStatusView != null) {
+                        tintView(stepperSixStatusView.viewStartLine, inProgressLine)
+                    }
+                }
+
+                if (tintEndLine) {
+                    if (stepperSixStatusView != null) {
+                        tintView(stepperSixStatusView.viewEndLine, inProgressLine)
+                    }
+                }
+
+                stepperSixStatusView?.tvLabelStepDescription?.setTextColor(textColor)
+            }
+            isStepperSeven->{
+                val stepperSevenStatusView : StepperItemSevenBinding? = statusView as StepperItemSevenBinding?
+
+                stepperSevenStatusView?.numberParentContainer?.setBackgroundResource(
+                    inProgressBackgroundResourceID
+                )
+
+                if (tintStartLine) {
+                    if (stepperSevenStatusView != null) {
+                        tintView(stepperSevenStatusView.viewStartLine, inProgressLine)
+                    }
+                }
+
+                if (tintEndLine) {
+                    if (stepperSevenStatusView != null) {
+                        tintView(stepperSevenStatusView.viewEndLine, inProgressLine)
+                    }
+                }
+
+                stepperSevenStatusView?.tvLabelStepDescription?.setTextColor(textColor)
+            }
             else -> {
 
             }
@@ -291,6 +382,8 @@ class MyPublicHelperClass(private val context: Context) {
         isStepperThree: Boolean,
         isStepperFour: Boolean,
         isStepperFive: Boolean,
+        isStepperSix: Boolean,
+        isStepperSeven: Boolean,
         tintStartLine: Boolean, tintEndLine: Boolean,
         textColor: Int
     ) {
@@ -390,6 +483,46 @@ class MyPublicHelperClass(private val context: Context) {
                 }
 
                 stepperFiveStatusView?.tvLabelStepDescription?.setTextColor(textColor)
+            }
+            isStepperSix->{
+                val stepperSixStatusView : StepperItemSixBinding?= statusView as StepperItemSixBinding?
+                stepperSixStatusView?.numberParentContainer?.setBackgroundResource(
+                    completedBackground
+                )
+
+                if (tintStartLine) {
+                    if (stepperSixStatusView != null) {
+                        tintView(stepperSixStatusView.viewStartLine, completedLine)
+                    }
+                }
+
+                if (tintEndLine) {
+                    if (stepperSixStatusView != null) {
+                        tintView(stepperSixStatusView.viewEndLine, completedLine)
+                    }
+                }
+
+                stepperSixStatusView?.tvLabelStepDescription?.setTextColor(textColor)
+            }
+            isStepperSeven->{
+                val stepperSevenStatusView : StepperItemSevenBinding?= statusView as StepperItemSevenBinding?
+                stepperSevenStatusView?.numberParentContainer?.setBackgroundResource(
+                    completedBackground
+                )
+
+                if (tintStartLine) {
+                    if (stepperSevenStatusView != null) {
+                        tintView(stepperSevenStatusView.viewStartLine, completedLine)
+                    }
+                }
+
+                if (tintEndLine) {
+                    if (stepperSevenStatusView != null) {
+                        tintView(stepperSevenStatusView.viewEndLine, completedLine)
+                    }
+                }
+
+                stepperSevenStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             else -> {
 
