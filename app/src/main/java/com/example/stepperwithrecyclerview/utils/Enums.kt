@@ -24,12 +24,12 @@ enum class PositionState(mode: Int) {
 
 
 enum class StepperPosition(val position: Int) {
-    STEP_ONE(1),
-    STEP_TWO(2),
-    STEP_THREE(3),
-    STEP_FOUR(4),
-    STEP_FIVE(5),
-    STEP_SIX(6),
-    STEP_SEVEN(7),
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5),
+    SIX(6),
+    SEVEN(7)
 }
 

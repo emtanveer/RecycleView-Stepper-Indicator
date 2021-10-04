@@ -1,12 +1,16 @@
 package com.example.stepperwithrecyclerview.utils
 
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.os.Build
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.ViewDataBinding
 import com.example.stepperwithrecyclerview.R
 import com.example.stepperwithrecyclerview.databinding.*
+import java.util.*
 
 
 class MyPublicHelperClass(private val context: Context) {
@@ -61,7 +65,7 @@ class MyPublicHelperClass(private val context: Context) {
     ) {
         when {
             isStepperOne -> {
-                val stepperOneStatusView = statusView as StepperItemOneBinding
+                val stepperOneStatusView = statusView as StepperStartingBinding
                 stepperOneStatusView.numberParentContainer.setBackgroundResource(
                     defaultBackgroundResourceID
                 )
@@ -77,7 +81,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperOneStatusView.tvLabelStepDescription.setTextColor(textColor)
             }
             isStepperTwo -> {
-                val stepperTwoStatusView : StepperItemTwoBinding? = statusView as StepperItemTwoBinding?
+                val stepperTwoStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
                 stepperTwoStatusView?.numberParentContainer?.setBackgroundResource(
                     defaultBackgroundResourceID
                 )
@@ -97,7 +101,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperTwoStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperThree -> {
-                val stepperThreeStatusView :StepperItemThreeBinding? = statusView as StepperItemThreeBinding?
+                val stepperThreeStatusView :StepperMiddleBinding? = statusView as StepperMiddleBinding?
                 stepperThreeStatusView?.numberParentContainer?.setBackgroundResource(
                     defaultBackgroundResourceID
                 )
@@ -117,7 +121,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperThreeStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperFour -> {
-                val stepperFourStatusView : StepperItemFourBinding? = statusView as StepperItemFourBinding?
+                val stepperFourStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
                 stepperFourStatusView?.numberParentContainer?.setBackgroundResource(
                     defaultBackgroundResourceID
                 )
@@ -137,7 +141,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperFourStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperFive -> {
-                val stepperFiveStatusView : StepperItemFiveBinding? = statusView as StepperItemFiveBinding?
+                val stepperFiveStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
                 stepperFiveStatusView?.numberParentContainer?.setBackgroundResource(
                     defaultBackgroundResourceID
                 )
@@ -159,7 +163,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperFiveStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperSix->{
-                val stepperSixStatusView : StepperItemSixBinding? = statusView as StepperItemSixBinding?
+                val stepperSixStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
                 stepperSixStatusView?.numberParentContainer?.setBackgroundResource(
                     defaultBackgroundResourceID
                 )
@@ -181,7 +185,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperSixStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperSeven->{
-                val stepperSevenStatusView : StepperItemSevenBinding? = statusView as StepperItemSevenBinding?
+                val stepperSevenStatusView : StepperEndingBinding? = statusView as StepperEndingBinding?
                 stepperSevenStatusView?.numberParentContainer?.setBackgroundResource(
                     defaultBackgroundResourceID
                 )
@@ -222,7 +226,7 @@ class MyPublicHelperClass(private val context: Context) {
     ) {
         when {
             isStepperOne -> {
-                val stepperOneStatusView : StepperItemOneBinding? = statusView as StepperItemOneBinding?
+                val stepperOneStatusView : StepperStartingBinding? = statusView as StepperStartingBinding?
 
                 stepperOneStatusView?.numberParentContainer?.setBackgroundResource(
                     inProgressBackgroundResourceID
@@ -243,7 +247,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperOneStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperTwo -> {
-                val stepperTwoStatusView : StepperItemTwoBinding? = statusView as StepperItemTwoBinding?
+                val stepperTwoStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
 
                 stepperTwoStatusView?.numberParentContainer?.setBackgroundResource(
                     inProgressBackgroundResourceID
@@ -264,7 +268,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperTwoStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperThree -> {
-                val stepperThreeStatusView:StepperItemThreeBinding? = statusView as StepperItemThreeBinding?
+                val stepperThreeStatusView:StepperMiddleBinding? = statusView as StepperMiddleBinding?
 
                 stepperThreeStatusView?.numberParentContainer?.setBackgroundResource(
                     inProgressBackgroundResourceID
@@ -285,7 +289,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperThreeStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperFour -> {
-                val stepperFourStatusView : StepperItemFourBinding? = statusView as StepperItemFourBinding?
+                val stepperFourStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
 
                 stepperFourStatusView?.numberParentContainer?.setBackgroundResource(
                     inProgressBackgroundResourceID
@@ -306,7 +310,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperFourStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperFive -> {
-                val stepperFiveStatusView : StepperItemFiveBinding? = statusView as StepperItemFiveBinding?
+                val stepperFiveStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
 
                 stepperFiveStatusView?.numberParentContainer?.setBackgroundResource(
                     inProgressBackgroundResourceID
@@ -327,7 +331,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperFiveStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperSix->{
-                val stepperSixStatusView : StepperItemSixBinding? = statusView as StepperItemSixBinding?
+                val stepperSixStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
 
                 stepperSixStatusView?.numberParentContainer?.setBackgroundResource(
                     inProgressBackgroundResourceID
@@ -348,7 +352,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperSixStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperSeven->{
-                val stepperSevenStatusView : StepperItemSevenBinding? = statusView as StepperItemSevenBinding?
+                val stepperSevenStatusView : StepperEndingBinding? = statusView as StepperEndingBinding?
 
                 stepperSevenStatusView?.numberParentContainer?.setBackgroundResource(
                     inProgressBackgroundResourceID
@@ -389,7 +393,7 @@ class MyPublicHelperClass(private val context: Context) {
     ) {
         when {
             isStepperOne -> {
-                val stepperOneStatusView : StepperItemOneBinding? = statusView as StepperItemOneBinding?
+                val stepperOneStatusView : StepperStartingBinding? = statusView as StepperStartingBinding?
                 stepperOneStatusView?.numberParentContainer?.setBackgroundResource(completedBackground)
 
                 if (tintStartLine) {
@@ -407,7 +411,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperOneStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperTwo -> {
-                val stepperTwoStatusView : StepperItemTwoBinding? = statusView as StepperItemTwoBinding?
+                val stepperTwoStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
                 stepperTwoStatusView?.numberParentContainer?.setBackgroundResource(completedBackground)
 
                 if (tintStartLine) {
@@ -425,7 +429,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperTwoStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperThree -> {
-                val stepperThreeStatusView : StepperItemThreeBinding? = statusView as StepperItemThreeBinding?
+                val stepperThreeStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
                 stepperThreeStatusView?.numberParentContainer?.setBackgroundResource(
                     completedBackground
                 )
@@ -445,7 +449,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperThreeStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperFour -> {
-                val stepperFourStatusView : StepperItemFourBinding? = statusView as StepperItemFourBinding?
+                val stepperFourStatusView : StepperMiddleBinding? = statusView as StepperMiddleBinding?
                 stepperFourStatusView?.numberParentContainer?.setBackgroundResource(
                     completedBackground
                 )
@@ -465,7 +469,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperFourStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperFive -> {
-                val stepperFiveStatusView : StepperItemFiveBinding?= statusView as StepperItemFiveBinding?
+                val stepperFiveStatusView : StepperMiddleBinding?= statusView as StepperMiddleBinding?
                 stepperFiveStatusView?.numberParentContainer?.setBackgroundResource(
                     completedBackground
                 )
@@ -485,7 +489,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperFiveStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperSix->{
-                val stepperSixStatusView : StepperItemSixBinding?= statusView as StepperItemSixBinding?
+                val stepperSixStatusView : StepperMiddleBinding?= statusView as StepperMiddleBinding?
                 stepperSixStatusView?.numberParentContainer?.setBackgroundResource(
                     completedBackground
                 )
@@ -505,7 +509,7 @@ class MyPublicHelperClass(private val context: Context) {
                 stepperSixStatusView?.tvLabelStepDescription?.setTextColor(textColor)
             }
             isStepperSeven->{
-                val stepperSevenStatusView : StepperItemSevenBinding?= statusView as StepperItemSevenBinding?
+                val stepperSevenStatusView : StepperEndingBinding?= statusView as StepperEndingBinding?
                 stepperSevenStatusView?.numberParentContainer?.setBackgroundResource(
                     completedBackground
                 )
@@ -542,6 +546,23 @@ class MyPublicHelperClass(private val context: Context) {
         view.isVisible = display
     }
 
+    //endregion
+
+
+    //region Helper Method for setting locale/Language
+    fun setLanguage(lang: String?) {
+        val localeNew = Locale(lang)
+        Locale.setDefault(localeNew)
+        val res: Resources = context.resources
+        val newConfig = Configuration(res.configuration)
+        newConfig.locale = localeNew
+        newConfig.setLayoutDirection(localeNew)
+        res.updateConfiguration(newConfig, res.displayMetrics)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            newConfig.setLocale(localeNew)
+            context.createConfigurationContext(newConfig)
+        }
+    }
     //endregion
 }
 

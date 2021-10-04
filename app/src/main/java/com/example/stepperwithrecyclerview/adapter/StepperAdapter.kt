@@ -5,29 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stepperwithrecyclerview.*
+import com.example.stepperwithrecyclerview.activity.MainActivity
 import com.example.stepperwithrecyclerview.databinding.*
 import com.example.stepperwithrecyclerview.interfaces.PositionHide
+import com.example.stepperwithrecyclerview.interfaces.UpdateStepperIndex
 import com.example.stepperwithrecyclerview.utils.MyPublicHelperClass
 import com.example.stepperwithrecyclerview.utils.PositionState
 import com.example.stepperwithrecyclerview.utils.StepperPosition
+import com.example.stepperwithrecyclerview.viewholders.ViewHolder
 
 class StepperAdapter(
-    private val context: Context,
-    /*private val journeyList: ArrayList<String>?,*/
-    private val descriptionListForSteps : ArrayList<String>?,
+    val context: Context,
+    val descriptionListForSteps: ArrayList<String>?,
     private val maxSteppers: Int,
     private val goToStep: Int,
-    private val hideStepper: PositionHide
-    /*,
-                     private val updatePosition : PositionStatus*/
-) :
-    RecyclerView.Adapter<ViewHolder>() {
+    private val hideStepper: PositionHide,
+    /*  private val updateStepperIndex: UpdateStepperIndex,*/
+) : RecyclerView.Adapter<ViewHolder>() {
+
 
     //region Resources for status colors
     private var pendingTextColor: Int =
@@ -40,24 +40,25 @@ class StepperAdapter(
     //endregion
 
     //region Resources for items Layout
-    var bindingStepOne: ViewDataBinding? = null
-    var bindingStepTwo: ViewDataBinding? = null
-    var bindingStepThree: ViewDataBinding? = null
-    var bindingStepFour: ViewDataBinding? = null
-    var bindingStepFive: ViewDataBinding? = null
-    var bindingStepSix: ViewDataBinding? = null
-    var bindingStepSeven: ViewDataBinding? = null
+    private var bindingStepOne: ViewDataBinding? = null
+    private var bindingStepTwo: ViewDataBinding? = null
+    private var bindingStepThree: ViewDataBinding? = null
+    private var bindingStepFour: ViewDataBinding? = null
+    private var bindingStepFive: ViewDataBinding? = null
+    private var bindingStepSix: ViewDataBinding? = null
+    private var bindingStepSeven: ViewDataBinding? = null
 
+    companion object {
+        const val STEPPER_ONE = 0
+        const val STEPPER_TWO = 1
+        const val STEPPER_THREE = 2
+        const val STEPPER_FOUR = 3
+        const val STEPPER_FIVE = 4
+        const val STEPPER_SIX = 5
+        const val STEPPER_SEVEN = 6
+    }
 
-    private val STEPPER_ONE = 0
-    private val STEPPER_TWO = 1
-    private val STEPPER_THREE = 2
-    private val STEPPER_FOUR = 3
-    private val STEPPER_FIVE = 4
-    private val STEPPER_SIX = 5
-    private val STEPPER_SEVEN = 6
-
-    val myPublicHelperClass = MyPublicHelperClass(context)
+    private val myPublicHelperClass = MyPublicHelperClass(context)
 
     //endregion
 
@@ -67,69 +68,78 @@ class StepperAdapter(
         when (viewType) {
             STEPPER_ONE -> {
                 bindingStepOne =
-                    DataBindingUtil.inflate(inflater, R.layout.stepper_item_one, parent, false)
-                return ViewHolder(bindingStepOne as StepperItemOneBinding)
+                    DataBindingUtil.inflate(inflater, R.layout.stepper_starting, parent, false)
+                return ViewHolder(bindingStepOne as StepperStartingBinding)
             }
             STEPPER_TWO -> {
                 bindingStepTwo =
-                    DataBindingUtil.inflate(inflater, R.layout.stepper_item_two, parent, false)
-                return ViewHolder(bindingStepTwo as StepperItemTwoBinding)
+                    DataBindingUtil.inflate(inflater, R.layout.stepper_middle, parent, false)
+                return ViewHolder(bindingStepTwo as StepperMiddleBinding)
             }
             STEPPER_THREE -> {
                 bindingStepThree =
-                    DataBindingUtil.inflate(inflater, R.layout.stepper_item_three, parent, false)
-                return ViewHolder(bindingStepThree as StepperItemThreeBinding)
+                    DataBindingUtil.inflate(inflater, R.layout.stepper_middle, parent, false)
+                return ViewHolder(bindingStepThree as StepperMiddleBinding)
             }
             STEPPER_FOUR -> {
                 bindingStepFour =
-                    DataBindingUtil.inflate(inflater, R.layout.stepper_item_four, parent, false)
-                return ViewHolder(bindingStepFour as StepperItemFourBinding)
+                    DataBindingUtil.inflate(inflater, R.layout.stepper_middle, parent, false)
+                return ViewHolder(bindingStepFour as StepperMiddleBinding)
             }
             STEPPER_FIVE -> {
                 bindingStepFive =
-                    DataBindingUtil.inflate(inflater, R.layout.stepper_item_five, parent, false)
-                return ViewHolder(bindingStepFive as StepperItemFiveBinding)
+                    DataBindingUtil.inflate(inflater, R.layout.stepper_middle, parent, false)
+                return ViewHolder(bindingStepFive as StepperMiddleBinding)
             }
             STEPPER_SIX -> {
                 bindingStepSix =
-                    DataBindingUtil.inflate(inflater, R.layout.stepper_item_six, parent, false)
-                return ViewHolder(bindingStepSix as StepperItemSixBinding)
+                    DataBindingUtil.inflate(inflater, R.layout.stepper_middle, parent, false)
+                return ViewHolder(bindingStepSix as StepperMiddleBinding)
             }
             STEPPER_SEVEN -> {
                 bindingStepSeven =
-                    DataBindingUtil.inflate(inflater, R.layout.stepper_item_seven, parent, false)
-                return ViewHolder(bindingStepSeven as StepperItemSevenBinding)
+                    DataBindingUtil.inflate(inflater, R.layout.stepper_ending, parent, false)
+                return ViewHolder(bindingStepSeven as StepperEndingBinding)
             }
-            else ->{
-                 val emptyLayout : ViewDataBinding? = DataBindingUtil.inflate(inflater,
-                     R.layout.empty_item, parent, false)
+
+            else -> {
+                val emptyLayout: ViewDataBinding? = DataBindingUtil.inflate(
+                    inflater,
+                    R.layout.empty_item, parent, false
+                )
                 return ViewHolder(emptyLayout as EmptyItemBinding)
             }
         }
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val step = descriptionListForSteps?.get(position)
 
+        //Constraint to make it 7 stepper max its limit number for steppers in layout.
         if (maxSteppers > 7) {
             setNumberOfStepsInStepperLayout(7)
-        }
-        else{
+        } else {
             setNumberOfStepsInStepperLayout(maxSteppers)
         }
 
         selectAccordingToInput(goToStep)
 
-    }
+        for (i in 0 until descriptionListForSteps!!.size) {
+            when (holder.itemViewType) {
+                i -> {
+                    //Setting Number On Steppers
+                    holder.itemView.findViewById<TextView>(R.id.tv_LabelStepNumber)?.text = (position + 1).toString()
 
-    override fun getItemCount(): Int {
-        return if (maxSteppers > 7) {
-            7
-        } else {
-            maxSteppers
+                    //Setting Descriptions On Steppers
+                    descriptionListForSteps.let { descriptionContentList ->
+                        holder.itemView.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text =
+                            descriptionContentList[position]
+                    }
+                }
+            }
         }
     }
+
+    override fun getItemCount() = descriptionListForSteps!!.size
 
     override fun getItemViewType(position: Int): Int {
         when (position) {
@@ -154,7 +164,7 @@ class StepperAdapter(
             6 -> {
                 return STEPPER_SEVEN
             }
-            else->{
+            else -> {
                 return -1
             }
         }
@@ -169,47 +179,46 @@ class StepperAdapter(
     private fun setNumberOfStepsInStepperLayout(numberOfStep: Int) {
         when (numberOfStep) {
             1 -> {
-                (bindingStepOne as StepperItemOneBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepOne as StepperStartingBinding?)?.let { updateStepperLayout(it.mainStepperView) }
             }
             2 -> {
-                (bindingStepOne as StepperItemOneBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepTwo as StepperItemTwoBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepOne as StepperStartingBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepTwo as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
             }
             3 -> {
-                (bindingStepOne as StepperItemOneBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepTwo as StepperItemTwoBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepThree as StepperItemThreeBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepOne as StepperStartingBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepTwo as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepThree as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
             }
             4 -> {
-                (bindingStepOne as StepperItemOneBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepTwo as StepperItemTwoBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepThree as StepperItemThreeBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepFour as StepperItemFourBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepOne as StepperStartingBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepTwo as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepThree as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepFour as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
             }
             5 -> {
-                (bindingStepOne as StepperItemOneBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepTwo as StepperItemTwoBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepThree as StepperItemThreeBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepFour as StepperItemFourBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepFive as StepperItemFiveBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepOne as StepperStartingBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepTwo as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepThree as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepFour as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepFive as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
             }
             6 -> {
-                (bindingStepOne as StepperItemOneBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepTwo as StepperItemTwoBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepThree as StepperItemThreeBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepFour as StepperItemFourBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepFive as StepperItemFiveBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepSix as StepperItemSixBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepSeven as StepperItemSevenBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepOne as StepperStartingBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepTwo as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepThree as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepFour as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepFive as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepSix as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
             }
             7 -> {
-                (bindingStepOne as StepperItemOneBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepTwo as StepperItemTwoBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepThree as StepperItemThreeBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepFour as StepperItemFourBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepFive as StepperItemFiveBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepSix as StepperItemSixBinding?)?.let { updateStepperLayout(it.mainStepperView) }
-                (bindingStepSeven as StepperItemSevenBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepOne as StepperStartingBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepTwo as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepThree as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepFour as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepFive as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepSix as StepperMiddleBinding?)?.let { updateStepperLayout(it.mainStepperView) }
+                (bindingStepSeven as StepperEndingBinding?)?.let { updateStepperLayout(it.mainStepperView) }
             }
 
         }
@@ -222,12 +231,13 @@ class StepperAdapter(
     private fun hideStepper(view: View) {
         view.visibility = View.GONE
     }
+
     //endregion
 
     //region Helper method for Status Updates
     private fun updatePositionStatus(position: StepperPosition) {
         when (position) {
-            StepperPosition.STEP_ONE -> {
+            StepperPosition.ONE -> {
                 handleStepOne(statusState = PositionState.IN_PROGRESS)
                 handleStepTwo(statusState = PositionState.PENDING)
                 handleStepThree(statusState = PositionState.PENDING)
@@ -236,7 +246,7 @@ class StepperAdapter(
                 handleStepSix(statusState = PositionState.PENDING)
                 handleStepSeven(statusState = PositionState.PENDING)
             }
-            StepperPosition.STEP_TWO -> {
+            StepperPosition.TWO -> {
                 handleStepOne(statusState = PositionState.DONE)
                 handleStepTwo(statusState = PositionState.IN_PROGRESS)
                 handleStepThree(statusState = PositionState.PENDING)
@@ -245,7 +255,7 @@ class StepperAdapter(
                 handleStepSix(statusState = PositionState.PENDING)
                 handleStepSeven(statusState = PositionState.PENDING)
             }
-            StepperPosition.STEP_THREE -> {
+            StepperPosition.THREE -> {
                 handleStepOne(statusState = PositionState.DONE)
                 handleStepTwo(statusState = PositionState.DONE)
                 handleStepThree(statusState = PositionState.IN_PROGRESS)
@@ -254,7 +264,7 @@ class StepperAdapter(
                 handleStepSix(statusState = PositionState.PENDING)
                 handleStepSeven(statusState = PositionState.PENDING)
             }
-            StepperPosition.STEP_FOUR -> {
+            StepperPosition.FOUR -> {
                 handleStepOne(statusState = PositionState.DONE)
                 handleStepTwo(statusState = PositionState.DONE)
                 handleStepThree(statusState = PositionState.DONE)
@@ -263,7 +273,7 @@ class StepperAdapter(
                 handleStepSix(statusState = PositionState.PENDING)
                 handleStepSeven(statusState = PositionState.PENDING)
             }
-            StepperPosition.STEP_FIVE -> {
+            StepperPosition.FIVE -> {
                 handleStepOne(statusState = PositionState.DONE)
                 handleStepTwo(statusState = PositionState.DONE)
                 handleStepThree(statusState = PositionState.DONE)
@@ -272,7 +282,7 @@ class StepperAdapter(
                 handleStepSix(statusState = PositionState.PENDING)
                 handleStepSeven(statusState = PositionState.PENDING)
             }
-            StepperPosition.STEP_SIX -> {
+            StepperPosition.SIX -> {
                 handleStepOne(statusState = PositionState.DONE)
                 handleStepTwo(statusState = PositionState.DONE)
                 handleStepThree(statusState = PositionState.DONE)
@@ -281,7 +291,7 @@ class StepperAdapter(
                 handleStepSix(statusState = PositionState.IN_PROGRESS)
                 handleStepSeven(statusState = PositionState.PENDING)
             }
-            StepperPosition.STEP_SEVEN -> {
+            StepperPosition.SEVEN -> {
                 handleStepOne(statusState = PositionState.DONE)
                 handleStepTwo(statusState = PositionState.DONE)
                 handleStepThree(statusState = PositionState.DONE)
@@ -295,20 +305,18 @@ class StepperAdapter(
 
     private fun handleStepOne(statusState: PositionState) {
 
-        descriptionListForSteps?.let { descriptionContentList->
-            bindingStepOne?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = descriptionContentList[0]
-        } ?:run{
-            bindingStepOne?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = ""
-        }
-
-        bindingStepOne?.root?.findViewById<TextView>(R.id.tv_LabelStepNumber)?.text = StepperPosition.STEP_ONE.position.toString()
-
         when (statusState) {
             PositionState.PENDING -> {
 
                 myPublicHelperClass.updateStatusItemForPendingState(
                     statusView = bindingStepOne,
-                    true, false, false, false, false,false,false,
+                    isStepperOne = true,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = pendingTextColor
                 )
@@ -317,7 +325,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForInProgressState(
                     statusView = bindingStepOne,
-                    true, false, false, false, false,false,false,
+                    isStepperOne = true,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = inProgressTextColor
                 )
@@ -326,7 +340,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForDoneState(
                     statusView = bindingStepOne,
-                    true, false, false, false, false,false,false,
+                    isStepperOne = true,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = completedTextColor
                 )
@@ -334,28 +354,20 @@ class StepperAdapter(
         }
     }
 
-    private fun hideStepOne() {
-
-        bindingStepOne?.root?.findViewById<ConstraintLayout>(R.id.mainStepperView)?.visibility = View.GONE
-
-    }
-
     private fun handleStepTwo(statusState: PositionState) {
-
-        descriptionListForSteps?.let { descriptionContentList->
-            bindingStepTwo?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = descriptionContentList[1]
-        } ?:run{
-            bindingStepTwo?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = ""
-        }
-
-        bindingStepTwo?.root?.findViewById<TextView>(R.id.tv_LabelStepNumber)?.text = StepperPosition.STEP_TWO.position.toString()
 
         when (statusState) {
             PositionState.PENDING -> {
 
                 myPublicHelperClass.updateStatusItemForPendingState(
                     statusView = bindingStepTwo,
-                    false, true, false, false, false,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = true,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = pendingTextColor
                 )
@@ -364,7 +376,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForInProgressState(
                     statusView = bindingStepTwo,
-                    false, true, false, false, false,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = true,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = inProgressTextColor
                 )
@@ -373,7 +391,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForDoneState(
                     statusView = bindingStepTwo,
-                    false, true, false, false, false,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = true,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = completedTextColor
                 )
@@ -383,20 +407,18 @@ class StepperAdapter(
 
     private fun handleStepThree(statusState: PositionState) {
 
-        descriptionListForSteps?.let { descriptionContentList->
-            bindingStepThree?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = descriptionContentList[2]
-        } ?:run{
-            bindingStepThree?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = ""
-        }
-
-        bindingStepThree?.root?.findViewById<TextView>(R.id.tv_LabelStepNumber)?.text = StepperPosition.STEP_THREE.position.toString()
-
         when (statusState) {
             PositionState.PENDING -> {
 
                 myPublicHelperClass.updateStatusItemForPendingState(
                     statusView = bindingStepThree,
-                    false, false, true, false, false,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = true,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = pendingTextColor
                 )
@@ -405,7 +427,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForInProgressState(
                     statusView = bindingStepThree,
-                    false, false, true, false, false,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = true,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = inProgressTextColor
                 )
@@ -414,7 +442,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForDoneState(
                     statusView = bindingStepThree,
-                    false, false, true, false, false,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = true,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = completedTextColor
                 )
@@ -424,20 +458,18 @@ class StepperAdapter(
 
     private fun handleStepFour(statusState: PositionState) {
 
-        descriptionListForSteps?.let { descriptionContentList->
-            bindingStepFour?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = descriptionContentList[3]
-        } ?:run{
-            bindingStepFour?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = ""
-        }
-
-        bindingStepFour?.root?.findViewById<TextView>(R.id.tv_LabelStepNumber)?.text = StepperPosition.STEP_FOUR.position.toString()
-
         when (statusState) {
             PositionState.PENDING -> {
 
                 myPublicHelperClass.updateStatusItemForPendingState(
                     statusView = bindingStepFour,
-                    false, false, false, true, false,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = true,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = pendingTextColor
                 )
@@ -446,7 +478,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForInProgressState(
                     statusView = bindingStepFour,
-                    false, false, false, true, false,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = true,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = inProgressTextColor
                 )
@@ -455,7 +493,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForDoneState(
                     statusView = bindingStepFour,
-                    false, false, false, true, false,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = true,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = completedTextColor
                 )
@@ -465,20 +509,18 @@ class StepperAdapter(
 
     private fun handleStepFive(statusState: PositionState) {
 
-        descriptionListForSteps?.let { descriptionContentList->
-            bindingStepFive?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = descriptionContentList[4]
-        } ?:run{
-            bindingStepFive?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = ""
-        }
-
-        bindingStepFive?.root?.findViewById<TextView>(R.id.tv_LabelStepNumber)?.text = StepperPosition.STEP_FIVE.position.toString()
-
         when (statusState) {
             PositionState.PENDING -> {
 
                 myPublicHelperClass.updateStatusItemForPendingState(
                     statusView = bindingStepFive,
-                    false, false, false, false, true,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = true,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = pendingTextColor
                 )
@@ -487,7 +529,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForInProgressState(
                     statusView = bindingStepFive,
-                    false, false, false, false, true,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = true,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = inProgressTextColor
                 )
@@ -496,7 +544,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForDoneState(
                     statusView = bindingStepFive,
-                    false, false, false, false, true,false,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = true,
+                    isStepperSix = false,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = completedTextColor
                 )
@@ -506,20 +560,18 @@ class StepperAdapter(
 
     private fun handleStepSix(statusState: PositionState) {
 
-        descriptionListForSteps?.let { descriptionContentList->
-            bindingStepSix?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = descriptionContentList[5]
-        } ?:run{
-            bindingStepSix?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = ""
-        }
-
-        bindingStepSix?.root?.findViewById<TextView>(R.id.tv_LabelStepNumber)?.text = StepperPosition.STEP_SIX.position.toString()
-
         when (statusState) {
             PositionState.PENDING -> {
 
                 myPublicHelperClass.updateStatusItemForPendingState(
                     statusView = bindingStepSix,
-                    false, false, false, false, false,true,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = true,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = pendingTextColor
                 )
@@ -528,7 +580,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForInProgressState(
                     statusView = bindingStepSix,
-                    false, false, false, false, false,true,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = true,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = inProgressTextColor
                 )
@@ -537,7 +595,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForDoneState(
                     statusView = bindingStepSix,
-                    false, false, false, false, false,true,false,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = true,
+                    isStepperSeven = false,
                     tintStartLine = true, tintEndLine = true,
                     textColor = completedTextColor
                 )
@@ -547,20 +611,18 @@ class StepperAdapter(
 
     private fun handleStepSeven(statusState: PositionState) {
 
-        descriptionListForSteps?.let { descriptionContentList->
-            bindingStepSeven?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = descriptionContentList[6]
-        } ?:run{
-            bindingStepSeven?.root?.findViewById<TextView>(R.id.tv_LabelStepDescription)?.text = ""
-        }
-
-        bindingStepSeven?.root?.findViewById<TextView>(R.id.tv_LabelStepNumber)?.text = StepperPosition.STEP_SEVEN.position.toString()
-
         when (statusState) {
             PositionState.PENDING -> {
 
                 myPublicHelperClass.updateStatusItemForPendingState(
                     statusView = bindingStepSeven,
-                    false, false, false, false,false,false, true,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = true,
                     tintStartLine = true, tintEndLine = true,
                     textColor = pendingTextColor
                 )
@@ -569,7 +631,13 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForInProgressState(
                     statusView = bindingStepSeven,
-                    false, false, false, false,false,false, true,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = true,
                     tintStartLine = true, tintEndLine = true,
                     textColor = inProgressTextColor
                 )
@@ -578,98 +646,126 @@ class StepperAdapter(
 
                 myPublicHelperClass.updateStatusItemForDoneState(
                     statusView = bindingStepSeven,
-                    false, false, false, false,false,false, true,
+                    isStepperOne = false,
+                    isStepperTwo = false,
+                    isStepperThree = false,
+                    isStepperFour = false,
+                    isStepperFive = false,
+                    isStepperSix = false,
+                    isStepperSeven = true,
                     tintStartLine = true, tintEndLine = true,
                     textColor = completedTextColor
                 )
             }
         }
     }
-
-
     //endregion
 
     //region Helper method for selection According to User specified Input from Main Activity
-    fun selectAccordingToInput(goToStep: Int){
+    fun selectAccordingToInput(goToStep: Int) {
         when (goToStep) {
             1 -> {
-                updatePositionStatus(StepperPosition.STEP_ONE)
-                // updatePosition.updatePositionStatus(StepperPosition.STEP_ONE,position)
+                updatePositionStatus(StepperPosition.ONE)
             }
             2 -> {
-                updatePositionStatus(StepperPosition.STEP_TWO)
-                // updatePosition.updatePositionStatus(StepperPosition.STEP_TWO,position)
+                updatePositionStatus(StepperPosition.TWO)
             }
             3 -> {
-                updatePositionStatus(StepperPosition.STEP_THREE)
-                // updatePosition.updatePositionStatus(StepperPosition.STEP_THREE,position)
+                updatePositionStatus(StepperPosition.THREE)
             }
             4 -> {
-                updatePositionStatus(StepperPosition.STEP_FOUR)
-                //updatePosition.updatePositionStatus(StepperPosition.STEP_FOUR,position)
+                updatePositionStatus(StepperPosition.FOUR)
             }
             5 -> {
-                updatePositionStatus(StepperPosition.STEP_FIVE)
-                // updatePosition.updatePositionStatus(StepperPosition.STEP_FIVE,position)
+                updatePositionStatus(StepperPosition.FIVE)
             }
             6 -> {
-                updatePositionStatus(StepperPosition.STEP_SIX)
-                // updatePosition.updatePositionStatus(StepperPosition.STEP_FIVE,position)
+                updatePositionStatus(StepperPosition.SIX)
             }
             7 -> {
-                updatePositionStatus(StepperPosition.STEP_SEVEN)
-                // updatePosition.updatePositionStatus(StepperPosition.STEP_FIVE,position)
+                updatePositionStatus(StepperPosition.SEVEN)
             }
         }
     }
     //endregion
 
     //region Helper method for deletion/hide According to User specified Input from Main Activity
-    fun hideAccordingToInput(hideStepperPosition: Int){
+    fun hideAccordingToInput(hideStepperPosition: Int) {
         when (hideStepperPosition) {
             1 -> {
-                (bindingStepOne as StepperItemOneBinding?)?.let {
-                    hideStepper(it.mainStepperView)
-                    hideStepper.hideStepper(0,it.tvLabelStepDescription.text.toString())
+                (bindingStepOne as StepperStartingBinding?)?.let {
+                   // hideStepper(it.mainStepperView)
+                    hideStepper.hideStepper(0, it.tvLabelStepDescription.text.toString())
                 }
             }
             2 -> {
-                (bindingStepTwo as StepperItemTwoBinding?)?.let {
-                    hideStepper(it.mainStepperView)
-                    hideStepper.hideStepper(1,it.tvLabelStepDescription.text.toString())
+                (bindingStepTwo as StepperMiddleBinding?)?.let {
+                   // hideStepper(it.mainStepperView)
+                    hideStepper.hideStepper(1, it.tvLabelStepDescription.text.toString())
                 }
             }
             3 -> {
-                (bindingStepThree as StepperItemThreeBinding?)?.let {
-                    hideStepper(it.mainStepperView)
-                    hideStepper.hideStepper(2,it.tvLabelStepDescription.text.toString())
+                (bindingStepThree as StepperMiddleBinding?)?.let {
+                   // hideStepper(it.mainStepperView)
+                    hideStepper.hideStepper(2, it.tvLabelStepDescription.text.toString())
                 }
+
             }
             4 -> {
-                (bindingStepFour as StepperItemFourBinding?)?.let {
-                    hideStepper(it.mainStepperView)
-                    hideStepper.hideStepper(3,it.tvLabelStepDescription.text.toString())
+                (bindingStepFour as StepperMiddleBinding?)?.let {
+                   // hideStepper(it.mainStepperView)
+                    hideStepper.hideStepper(3, it.tvLabelStepDescription.text.toString())
                 }
             }
             5 -> {
-                (bindingStepFive as StepperItemFiveBinding?)?.let {
-                    hideStepper(it.mainStepperView)
-                    hideStepper.hideStepper(4,it.tvLabelStepDescription.text.toString())
+                (bindingStepFive as StepperMiddleBinding?)?.let {
+                   // hideStepper(it.mainStepperView)
+                    hideStepper.hideStepper(4, it.tvLabelStepDescription.text.toString())
                 }
             }
             6 -> {
-                (bindingStepSix as StepperItemSixBinding?)?.let {
-                    hideStepper(it.mainStepperView)
-                    hideStepper.hideStepper(5,it.tvLabelStepDescription.text.toString())
+                (bindingStepSix as StepperMiddleBinding?)?.let {
+                   // hideStepper(it.mainStepperView)
+                    hideStepper.hideStepper(5, it.tvLabelStepDescription.text.toString())
                 }
             }
             7 -> {
-                (bindingStepSeven as StepperItemSevenBinding?)?.let {
-                    hideStepper(it.mainStepperView)
-                    hideStepper.hideStepper(6,it.tvLabelStepDescription.text.toString())
+                (bindingStepSeven as StepperEndingBinding?)?.let {
+                   // hideStepper(it.mainStepperView)
+                    hideStepper.hideStepper(6, it.tvLabelStepDescription.text.toString())
                 }
             }
         }
     }
+
+    fun deleteItem(position: Int) {
+            if (descriptionListForSteps?.size == 1){
+                val index = position-1
+                if(index != -1){
+                    descriptionListForSteps.removeAt(index)
+                    notifyItemRemoved(index)
+                    notifyItemRangeChanged(index, itemCount)
+                }
+                else{
+                    descriptionListForSteps.removeAt(0)
+                    notifyItemRemoved(0)
+                    notifyItemRangeChanged(0, itemCount)
+                }
+
+            }
+            else if (descriptionListForSteps?.size!! > 0) {
+                if(position > descriptionListForSteps.size-1) {
+
+                }
+                else{
+                    descriptionListForSteps.removeAt(position)
+                    notifyItemRemoved(position)
+                    notifyItemRangeChanged(position, itemCount)
+                }
+            }
+
+    }
     //endregion
+
+
 }

@@ -1,37 +1,36 @@
 package com.example.stepperwithrecyclerview.activity
 
-import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stepperwithrecyclerview.R
 import com.example.stepperwithrecyclerview.adapter.StepperAdapter
 import com.example.stepperwithrecyclerview.databinding.ActivityMainBinding
-import android.view.View
-
-import android.widget.LinearLayout
-import android.os.Build
-import android.text.TextUtils
-import androidx.core.view.ViewCompat
-import java.util.*
-import kotlin.collections.ArrayList
-import android.content.Intent
-import android.util.Log
-import android.view.ViewGroup
 import com.example.stepperwithrecyclerview.interfaces.PositionHide
+import com.example.stepperwithrecyclerview.interfaces.UpdateStepperIndex
+import com.example.stepperwithrecyclerview.utils.MyPublicHelperClass
+import com.example.stepperwithrecyclerview.viewholders.ViewHolder
 
 
-class MainActivity : AppCompatActivity(), PositionHide {
+class MainActivity : AppCompatActivity(), PositionHide/*, UpdateStepperIndex*/ {
+
+    companion object{
+        const val maxSteppers = 7
+        const val goToStep = 7
+    }
 
     private lateinit var stepperAdapter: StepperAdapter
-    private var journeyList: ArrayList<String> = ArrayList()
-    private var descriptionListForSteps: ArrayList<String> = ArrayList()
-
     private lateinit var dataBinding: ActivityMainBinding
+    private var descriptionListForSteps: ArrayList<String> = ArrayList()
     private var languageArabic: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,9 +38,15 @@ class MainActivity : AppCompatActivity(), PositionHide {
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         dataBinding.lifecycleOwner = this
 
+        initViews()
+    }
+
+    //region Helper Methods for Views Init
+    private fun initViews() {
 
         callSetStepperRecyclerView()
 
+        //region button click listeners
         dataBinding.btnStepOne.setOnClickListener {
             stepperAdapter.selectAccordingToInput(1)
             dataBinding.stepIndicatorRecyclerView.smoothScrollToPosition(0)
@@ -73,7 +78,7 @@ class MainActivity : AppCompatActivity(), PositionHide {
 
         dataBinding.btnArabicLanguage.setOnClickListener {
             dataBinding.mainLayout.layoutDirection = View.LAYOUT_DIRECTION_RTL
-            setLanguage(this, "ar")
+            MyPublicHelperClass(this).setLanguage("ar")
             languageArabic = true
 
             val intent = intent
@@ -86,7 +91,7 @@ class MainActivity : AppCompatActivity(), PositionHide {
 
         dataBinding.btnEnglishLanguage.setOnClickListener {
             dataBinding.mainLayout.layoutDirection = View.LAYOUT_DIRECTION_LTR
-            setLanguage(this, "en")
+            MyPublicHelperClass(this).setLanguage("en")
             languageArabic = false
 
             val intent = intent
@@ -105,22 +110,26 @@ class MainActivity : AppCompatActivity(), PositionHide {
 
         }
 
+        //endregion
     }
+    //endregion
 
-    fun callSetStepperRecyclerView() {
+    //region RecyclerView Setup
+    private fun callSetStepperRecyclerView() {
+
         populateContentForEachStepperList()
 
-        val maxSteppers = 7
-        val goToStep = 7
+        stepperAdapter = StepperAdapter(this, descriptionListForSteps, maxSteppers, goToStep, this/*, this*/)
 
-        stepperAdapter = StepperAdapter(this, descriptionListForSteps, maxSteppers, goToStep,this)
-
-        val manager: RecyclerView.LayoutManager =
+        val manager=
             GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false)
+
 
         dataBinding.stepIndicatorRecyclerView.apply {
             layoutManager = manager
+
             adapter = stepperAdapter
+
             smoothScrollToPosition(maxSteppers)
 
             val params = RecyclerView.LayoutParams(
@@ -130,30 +139,14 @@ class MainActivity : AppCompatActivity(), PositionHide {
             layoutParams = params
         }
     }
+    //endregion
 
-    fun setLanguage(mContext: Context, lang: String?) {
-        val localeNew = Locale(lang)
-        Locale.setDefault(localeNew)
-        val res: Resources = mContext.resources
-        val newConfig = Configuration(res.configuration)
-        newConfig.locale = localeNew
-        newConfig.setLayoutDirection(localeNew)
-        res.updateConfiguration(newConfig, res.displayMetrics)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            newConfig.setLocale(localeNew)
-            mContext.createConfigurationContext(newConfig)
-        }
-    }
-
-
-//    private fun populateContentForEachStepperList(){
-//        val list = listOf("POLICYe","PROFESSIONe", "CUSTOMIZEe","HISTORYe", "PERSONALe")
-//        journeyList.addAll(list)
-//    }
-
+    //region Helper method for populating Stepper data in List
     private fun populateContentForEachStepperList() {
-        val contentList = listOf(
-            resources.getString(R.string.stepper_one_desc),
+        descriptionListForSteps.clear()
+
+        val contentList = mutableListOf(
+            null,
             resources.getString(R.string.stepper_two_desc),
             resources.getString(R.string.stepper_three_desc),
             resources.getString(R.string.stepper_four_desc),
@@ -162,43 +155,17 @@ class MainActivity : AppCompatActivity(), PositionHide {
             resources.getString(R.string.stepper_seven_desc)
         )
 
-        descriptionListForSteps.addAll(contentList)
+        descriptionListForSteps.addAll(contentList as Collection<String>)
+
     }
+    //endregion
 
-
+    //region Helper method for deleting Stepper
+    @SuppressLint("SetTextI18n")
     override fun hideStepper(position: Int, content: String) {
-//        when(position){
-//            0->{
-//
-//            }
-//            1->{
-//
-//            }
-//            2->{
-//
-//            }
-//            3->{
-//
-//            }
-//            4->{
-//
-//            }
-//            5->{
-//
-//            }
-//            6->{
-//
-//            }
-//        }
-        Log.e("sad",content)
-        val item = dataBinding.stepIndicatorRecyclerView.findViewHolderForAdapterPosition(position)
-
-
-        val params = item?.itemView?.layoutParams
-        params?.height = 0
-        params?.width = 0
-
-        item?.itemView?.layoutParams = params
-        dataBinding.stepIndicatorRecyclerView.refreshDrawableState()
+        stepperAdapter.deleteItem(position)
+        Log.e("removeStepper: ", "pos : $position - $content")
     }
+    //endregion
+
 }
